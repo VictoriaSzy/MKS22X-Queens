@@ -2,6 +2,21 @@ public class QueenBoard {
   // Variables
   private int[][] board ;
 
+  public static void main(String[] args) {
+    QueenBoard q = new QueenBoard(3) ;
+    System.out.println("Here is the board:\n" + q.toString()) ;
+    q.addQueen(0,0) ;
+    System.out.println("We have added a queen to the upper left tile:\n" + q.toString()) ;
+    q.addQueen(1,1) ;
+    System.out.println("We have added a queen to 1,1:\n" + q.toString()) ;
+    q.addQueen(2,3) ;
+    System.out.println("We have added a queen to 2,3:\n" + q.toString()) ;
+    q.removeQueen(2,3) ;
+    System.out.println("We have removed the queen at 2,3:\n" + q.toString()) ;
+    q.removeQueen(1,0) ;
+    System.out.println("We tried to remov the \"queen\" at 1,0, which doesn't exist:\n" + q.toString()) ;
+  }
+
   // Constructor: fills 2D array with 0's to start
   public QueenBoard(int size) {
     board = new int[size][size] ;
@@ -75,16 +90,16 @@ public class QueenBoard {
   *        true when the board is solveable, and leaves the board in a solved state
   *@throws IllegalStateException when the board starts with any non-zero value
   */
-  public boolean solve() {
+  //public boolean solve() {
 
-  }
+  //}
 
   /**
   *@return the number of solutions found, and leaves the board filled with only 0's
   *@throws IllegalStateException when the board starts with any non-zero value
   */
-  public int countSolutions(){
+  //public int countSolutions(){
 
-  }
+  //}
 
 }
