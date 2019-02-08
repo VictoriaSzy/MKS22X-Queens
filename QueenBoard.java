@@ -84,15 +84,34 @@ public class QueenBoard {
     }
     return result ;
   }
-
+  private boolean singleQueens(int[][] board) {
+    int total = 0 ;
+    for (int r = 0 ; r < board.length ; r++) {
+      for (int c = 0 ; c < board.length ; c++) {
+        if (board[r][c] == -1) total++ ;
+      }
+    }
+    return total == board.length ;
+  }
   /**
   *@return false when the board is not solveable and leaves the board filled with zeros;
   *        true when the board is solveable, and leaves the board in a solved state
   *@throws IllegalStateException when the board starts with any non-zero value
   */
-  //public boolean solve() {
-
-  //}
+  public boolean solve() {
+    if (singleQueens(board)) {
+      return true ;
+    }
+    else {
+      // Make board have zeros only
+      for (int r = 0 ; r < board.length ; r++) {
+        for (int c = 0 ; c < board.length ; c++) {
+          board[r][c] = 0 ;
+        }
+      }
+      return false ;
+    }
+  }
 
   /**
   *@return the number of solutions found, and leaves the board filled with only 0's
