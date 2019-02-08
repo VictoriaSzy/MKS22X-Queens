@@ -19,7 +19,7 @@ public class QueenBoard {
       board[r][c] = -1 ;
       for (int row = 0 ; row < board.length ; row++) {
         for (int col = c + 1 ; col < board.length ; col++) {
-          if (row == r || Math.abs(r-row) == Math.abs(c-col) ) {
+          if (row == r || Math.abs(r - row) == Math.abs(c - col) ) {
             board[row][col] += 1 ;
           }
         }
@@ -28,7 +28,16 @@ public class QueenBoard {
     }
   }
   private boolean removeQueen(int r, int c) {
-
+    if (board[r][c] != -1) return false ; // the specified tile is not a Queen
+    else {
+      board[r][c] = 0 ;
+      for (int row = 0 ; row < board.length ; row++) {
+        for (int col = c + 1 ; col < board.length ; col++) {
+          if (row == r || Math.abs(r - row) == Math.abs(c - col)) board[row][col] -= 1 ;
+        }
+      }
+      return true ;
+    }
   }
 
   /////////////////////// PUBLIC METHODS ////// /////////////////////////
@@ -52,7 +61,11 @@ public class QueenBoard {
           // we have found a queen!
           result += "Q" ;
         }
+        else {
+          result += board[r][c] + " " ;
+        }
       }
+      result += "\n" ;
     }
     return result ;
   }
