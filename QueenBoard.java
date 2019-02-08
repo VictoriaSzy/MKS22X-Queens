@@ -2,7 +2,7 @@ public class QueenBoard {
   // Variables
   private int[][] board ;
 
-  // Constructor
+  // Constructor: fills 2D array with 0's to start
   public QueenBoard(int size) {
     board = new int[size][size] ;
     for (int r = 0 ; r < size ; r++) {
@@ -14,7 +14,18 @@ public class QueenBoard {
 
   //////////////////// PRIVATE METHODS ///////////////////////////////////////
   private boolean addQueen(int r, int c) {
-
+    if (board[r][c] != 0) return false ; // the tile is threatened so we can't put down a queen there
+    else {
+      board[r][c] = -1 ;
+      for (int row = 0 ; row < board.length ; row++) {
+        for (int col = c + 1 ; col < board.length ; col++) {
+          if (row == r || Math.abs(r-row) == Math.abs(c-col) ) {
+            board[row][col] += 1 ;
+          }
+        }
+      }
+      return true ;
+    }
   }
   private boolean removeQueen(int r, int c) {
 
@@ -34,7 +45,16 @@ public class QueenBoard {
   *excludes the character up to the *)
   */
   public String toString() {
-
+    String result = "" ;
+    for (int r = 0 ; r < board.length ; r++) {
+      for (int c = 0 ; c < board.length ; c++) {
+        if (board[r][c] == -1) {
+          // we have found a queen!
+          result += "Q" ;
+        }
+      }
+    }
+    return result ;
   }
 
   /**
