@@ -5,16 +5,16 @@ public class QueenBoard {
   public static void main(String[] args) {
     QueenBoard q = new QueenBoard(3) ;
     System.out.println("Here is the board:\n" + q.toString()) ;
-    q.addQueen(0,0) ;
-    System.out.println("We have added a queen to the upper left tile:\n" + q.toString()) ;
-    q.addQueen(1,1) ;
-    System.out.println("We have added a queen to 1,1:\n" + q.toString()) ;
-    q.addQueen(2,3) ;
-    System.out.println("We have added a queen to 2,3:\n" + q.toString()) ;
-    q.removeQueen(2,3) ;
-    System.out.println("We have removed the queen at 2,3:\n" + q.toString()) ;
-    q.removeQueen(1,0) ;
-    System.out.println("We tried to remov the \"queen\" at 1,0, which doesn't exist:\n" + q.toString()) ;
+    System.out.println("Let's try to add a queen to 0,0: " + q.addQueen(0,0)) ; //should be true
+    System.out.println("We have added a queen to the upper left tile!\n" + q.toString()) ;
+    System.out.println("Let's try to add a queen to 1,1: " + q.addQueen(1,1)) ; //should be false
+    System.out.println("We cannot add a queen to 1,1! \n" + q.toString()) ;
+    System.out.println("Let's try to add a queen to 2,1: " + q.addQueen(2,1)) ; //should be true
+    System.out.println("We can add a queen to 2,1!\n" + q.toString()) ;
+    System.out.println("Let's try to remove a queen at 2,2: " + q.removeQueen(2,2)) ; //should be false bc there is no queen to remove
+    System.out.println("We cannot remove a queen at 2,2 because there is none!\n" + q.toString()) ;
+    System.out.println("Let's try to remove a queen at 1,0: " + q.removeQueen(1,0)) ;
+    System.out.println("We tried to remove the \"queen\" at 1,0, which doesn't exist!\n" + q.toString()) ;
   }
 
   // Constructor: fills 2D array with 0's to start
@@ -74,7 +74,7 @@ public class QueenBoard {
       for (int c = 0 ; c < board.length ; c++) {
         if (board[r][c] == -1) {
           // we have found a queen!
-          result += "Q" ;
+          result += "Q " ;
         }
         else {
           result += board[r][c] + " " ;
