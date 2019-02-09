@@ -15,6 +15,7 @@ public class QueenBoard {
     System.out.println("We can add a queen to 0,2!\n" + q.toString()) ;
     System.out.println("Let's try to add a queen to 2,3:" + q.addQueen(2,3)) ; // should be true
     System.out.println("We can add a queen to 2,3!\n" + q.toString()) ;
+    System.out.println("*********************REMOVING******************************************************************") ;
     /*QueenBoard a = new QueenBoard(4) ;
     if (a.solve()) System.out.println("The board (a) is solvable! Good!") ;
     else {
@@ -25,10 +26,10 @@ public class QueenBoard {
     else {
       System.out.println("Good job! (b) was not solvable!") ;
     }*/
-    /*System.out.println("Let's try to remove a queen at 2,2: " + q.removeQueen(2,2)) ; //should be true
-    System.out.println("We can remove a queen at 2,2!\n" + q.toString()) ;
-    System.out.println("Let's try to remove a queen at 1,0: " + q.removeQueen(1,0)) ;
-    System.out.println("We tried to remove the \"queen\" at 1,0, which doesn't exist!\n" + q.toString()) ;*/
+    System.out.println("Let's try to remove a queen at 2,3: " + q.removeQueen(2,3)) ; //should be true
+    System.out.println("We can remove a queen at 2,3!\n" + q.toString()) ;
+    System.out.println("Let's try to remove a queen at 1,1: " + q.removeQueen(1,1)) ;
+    System.out.println("We tried to remove the \"queen\" at 1,1, which doesn't exist!\n" + q.toString()) ;
   }
 
   // Constructor: fills 2D array with 0's to start
@@ -82,17 +83,31 @@ public class QueenBoard {
     else {
       int l = board.length ;
       board[r][c] = 0 ;
-      // remove one horizontally
-      for (int col = 0 ; col < l ; col++) {
-        if (col != c) board[r][col]-- ;
-      }
-      // remove one vertically
-      for (int row = 0 ; row < l ; row++) {
-        if (row != r) board[row][c]-- ;
-      }
+      // remove one horizontally & vertically
       for (int row = 0 ; row < l ; row++) {
         for (int col = 0 ; col < l ; col++) {
-          if (r - row == c - col && row != r && col != c) board[row][col]-- ;
+          if (row == r && col != c) board[row][col] -= 1 ;
+          if (col == c && row != r) board[row][col] -= 1 ;
+        }
+      }
+      // remove one diagonally right up
+      if (r > 0 && c < l - 1) {
+        int row = r - 1 ;
+        int col = c + 1 ;
+        while (row >= 0 && col < l) {
+          board[row][col] -= 1 ;
+          col++ ;
+          row-- ;
+        }
+      }
+      // remove one diagonally right down
+      if (r < l - 1 && c < l - 1) {
+        int row = r + 1 ;
+        int col = c + 1 ;
+        while (row < l && col < l) {
+          board[row][col] -= 1 ;
+          row++ ;
+          col++ ;
         }
       }
       return true ;
