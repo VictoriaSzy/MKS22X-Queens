@@ -92,6 +92,7 @@ public class QueenBoard {
     }
     return result ;
   }
+  // Private helper method for solve()
   private boolean singleQueens(int[][] board) {
     int total = 0 ;
     for (int r = 0 ; r < board.length ; r++) {
@@ -101,37 +102,63 @@ public class QueenBoard {
     }
     return total == board.length ;
   }
-  private boolean checkForSpotInRowC(int[][] board, int c) {
-    int total = 0 ;
-    int r = 0 ;
-    while (r < board.length) {
-      if (board[r][c] == 0) return true ;
-    }
-    return false ;
-  }
   /**
   *@return false when the board is not solveable and leaves the board filled with zeros;
   *        true when the board is solveable, and leaves the board in a solved state
-  *@throws IllegalStateException when the board starts with any non-zero value
+  *@throws IllegalStateException when the board starts with any non-zero value on the board
   */
   public boolean solve() {
-    boolean res ;
-    //for (int c = 0 ; c < board.length ; c++) {
-      //if (!checkForSpotInRowC(board,c)) res = false ;
-    //}
+    for (int r = 0 ; r < board.length ; r++) {
+      for (int c = 0 ; c < board.length ; c++) {
+        if (board[r][c] != 0) throw new IllegalStateException("Why is the board not starting with 0? IllegalStateException is thrown!") ;
+      }
+    }
     if (singleQueens(board)) {
-      res = true ;
+      return true ;
     }
     else {
-      // Make board have zeros only
-      for (int r = 0 ; r < board.length ; r++) {
-        for (int c = 0 ; c < board.length ; c++) {
-          board[r][c] = 0 ;
+      return solveH(0,0,board.length,0) ;
+    }
+  }
+  // Second helper method for solve that uses recursion
+  public boolean solveH(int r, int c, int target, int current) {
+    int l = board.length ;
+    if (r < l && c < l && board[r][c] == 0) {
+      // the tile can get a queen
+      addQueen(r, c) ;
+      current++ ;
+      // then we move on to the next column
+      return solveH(0, c + 1, target, current) ;
+    }
+    // if we can't put a queen at [r][c]:
+    else {
+      if (r == l - 1) {
+        // @ bottom row
+        if ( board[l - 1][0] == -1 ) {
+          return false ;
+        }
+        c-- ;
+        // checking rest of the rows in this col
+        for (int i = 0 ; i < l ; i++) {
+          if (board[i][c] == -1) {
+            r = i ;
+          }
+        }
+        removeQueen(r, c) ;
+        current-- ;
+        if (r == l - 1) {
+          c-- ;
+          for (int i = 0 ; i < l ; i++) {
+            if (board[i][c] == -1) {
+              r = i ;
+            }
+          }
+          removeQueen(r, c);
+          current-- ;
         }
       }
-      res = false ;
+      return solveH(r + 1, c, target, current) ;
     }
-    return res ;
   }
 
   /**
