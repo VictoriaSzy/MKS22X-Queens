@@ -132,35 +132,18 @@ public class QueenBoard {
       return true ;
     }
     else {
-      return solveH(0,0,board.length,0) ;
+      return solveH(0) ;
     }
   }
   // Second helper method for solve that uses recursion
-  public boolean solveH(int r, int c, int target, int current) {
+  public boolean solveH(int r) {
     int l = board.length ;
-    if (r < l && c < l && board[r][c] == 0) {
-      // the tile can get a queen
-      addQueen(r, c) ;
-      current++ ;
-      // then we move on to the next column
-      return solveH(0, c + 1, target, current) ;
+    if (r >= l) {
+      // we're at the end of the board
+      return true ;
     }
-    // if we can't put a queen at [r][c]:
     else {
-      while (r == l - 1) {
-        // @ bottom row
-        if ( board[l - 1][0] == -1 ) return false ;
-        c-- ;
-        // checking rest of the rows in this col
-        for (int i = 0 ; i < l ; i++) {
-          if (board[i][c] == -1) {
-            r = i ;
-          }
-        }
-        removeQueen(r, c) ;
-        current-- ;
-      }
-      return solveH(r + 1, c, target, current) ;
+      return false ;
     }
   }
 
