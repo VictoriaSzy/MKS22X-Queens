@@ -3,7 +3,7 @@ public class QueenBoard {
   private int[][] board ;
 
   public static void main(String[] args) {
-    QueenBoard q = new QueenBoard(4) ;
+    /*QueenBoard q = new QueenBoard(4) ;
     System.out.println("Here is the board:\n" + q.toString()) ;
     System.out.println("Let's try to add a queen to 1,0: " + q.addQueen(1,0)) ; //should be true
     System.out.println("We have added a queen to 1,0!\n" + q.toString()) ;
@@ -14,7 +14,7 @@ public class QueenBoard {
     System.out.println("Let's try to add a queen to 0,2:" + q.addQueen(0,2)) ; // should be true
     System.out.println("We can add a queen to 0,2!\n" + q.toString()) ;
     System.out.println("Let's try to add a queen to 2,3:" + q.addQueen(2,3)) ; // should be true
-    System.out.println("We can add a queen to 2,3!\n" + q.toString()) ;
+    System.out.println("We can add a queen to 2,3!\n" + q.toString()) ;*/
     QueenBoard a = new QueenBoard(4) ;
     if (a.solve()) System.out.println("The board (a) is solvable! Good!") ;
     else {
@@ -63,21 +63,15 @@ public class QueenBoard {
       board[r][c] = 0 ;
       // remove one horizontally
       for (int col = 0 ; col < l ; col++) {
-        if (col != c) {
-          board[r][col]-- ;
-        }
+        if (col != c) board[r][col]-- ;
       }
       // remove one vertically
       for (int row = 0 ; row < l ; row++) {
-        if (row != r) {
-          board[row][c]-- ;
-        }
+        if (row != r) board[row][c]-- ;
       }
       for (int row = 0 ; row < l ; row++) {
         for (int col = 0 ; col < l ; col++) {
-          if (r - row == c - col && row != r && col != c) {
-            board[row][col]-- ;
-          }
+          if (r - row == c - col && row != r && col != c) board[row][col]-- ;
         }
       }
       return true ;
