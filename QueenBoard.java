@@ -15,9 +15,10 @@ public class QueenBoard {
     System.out.println("We can add a queen to 0,2!\n" + q.toString()) ;
     System.out.println("Let's try to add a queen to 2,3:" + q.addQueen(2,3)) ; // should be true
     System.out.println("We can add a queen to 2,3!\n" + q.toString()) ;
-    if (q.solve()) System.out.println("The board is solvable! Good!") ;
+    QueenBoard a = new QueenBoard(4) ;
+    if (a.solve()) System.out.println("The board (a) is solvable! Good!") ;
     else {
-      System.out.println("Work on solve method!") ;
+      System.out.println("Work on solve method! It's not working correctly right now...") ;
     }
     /*System.out.println("Let's try to remove a queen at 2,2: " + q.removeQueen(2,2)) ; //should be true
     System.out.println("We can remove a queen at 2,2!\n" + q.toString()) ;
@@ -37,14 +38,19 @@ public class QueenBoard {
 
   //////////////////// PRIVATE METHODS ///////////////////////////////////////
   private boolean addQueen(int r, int c) {
-    if (board[r][c] != 0) return false ; // the tile is threatened so we can't put down a queen there
+    if (board[r][c] != 0) return false ; // the tile is threatened OR has a queen already so we can't put down a queen
     else {
+      int l = board.length ;
       board[r][c] = -1 ;
-      for (int row = 0 ; row < board.length ; row++) {
-        for (int col = c + 1 ; col < board.length ; col++) {
-          if (row == r || Math.abs(r - row) == Math.abs(c - col) ) {
-            board[row][col] += 1 ;
-          }
+      for (int col = 0 ; col < l ; col++) {
+        if (col != c) board[r][col]++ ;
+      }
+      for (int row = 0 ; row < l ; row++) {
+        if (row != r) board[row][c]++ ;
+      }
+      for (int row = 0 ; row < l ; row++) {
+        for (int col = 0 ; col < l ; col++) {
+          if (r - row == c - col && row != r && col != c) board[row][col]++ ;
         }
       }
       return true ;
@@ -53,10 +59,25 @@ public class QueenBoard {
   private boolean removeQueen(int r, int c) {
     if (board[r][c] != -1) return false ; // the specified tile is not a Queen
     else {
+      int l = board.length ;
       board[r][c] = 0 ;
-      for (int row = 0 ; row < board.length ; row++) {
-        for (int col = c + 1 ; col < board.length ; col++) {
-          if (row == r || Math.abs(r - row) == Math.abs(c - col)) board[row][col] -= 1 ;
+      // remove one horizontally
+      for (int col = 0 ; col < l ; col++) {
+        if (col != c) {
+          board[r][col]-- ;
+        }
+      }
+      // remove one vertically
+      for (int row = 0 ; row < l ; row++) {
+        if (row != r) {
+          board[row][c]-- ;
+        }
+      }
+      for (int row = 0 ; row < l ; row++) {
+        for (int col = 0 ; col < l ; col++) {
+          if (r - row == c - col && row != r && col != c) {
+            board[row][col]-- ;
+          }
         }
       }
       return true ;
@@ -132,11 +153,9 @@ public class QueenBoard {
     }
     // if we can't put a queen at [r][c]:
     else {
-      if (r == l - 1) {
+      while (r == l - 1) {
         // @ bottom row
-        if ( board[l - 1][0] == -1 ) {
-          return false ;
-        }
+        if ( board[l - 1][0] == -1 ) return false ;
         c-- ;
         // checking rest of the rows in this col
         for (int i = 0 ; i < l ; i++) {
@@ -146,16 +165,6 @@ public class QueenBoard {
         }
         removeQueen(r, c) ;
         current-- ;
-        if (r == l - 1) {
-          c-- ;
-          for (int i = 0 ; i < l ; i++) {
-            if (board[i][c] == -1) {
-              r = i ;
-            }
-          }
-          removeQueen(r, c);
-          current-- ;
-        }
       }
       return solveH(r + 1, c, target, current) ;
     }
@@ -165,8 +174,13 @@ public class QueenBoard {
   *@return the number of solutions found, and leaves the board filled with only 0's
   *@throws IllegalStateException when the board starts with any non-zero value
   */
-  //public int countSolutions(){
-
-  //}
+  public int countSolutions() {
+    for (int r = 0 ; r < board.length ; r++) {
+      for (int c = 0 ; c < board.length ; c++) {
+        if (board[r][c] != 0) throw new IllegalStateException("Why is the board not starting with 0? IllegalStateException is thrown!") ;
+      }
+    }
+    return 1 ;
+  }
 
 }
