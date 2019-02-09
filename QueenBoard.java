@@ -3,7 +3,7 @@ public class QueenBoard {
   private int[][] board ;
 
   public static void main(String[] args) {
-    /*QueenBoard q = new QueenBoard(4) ;
+    QueenBoard q = new QueenBoard(4) ;
     System.out.println("Here is the board:\n" + q.toString()) ;
     System.out.println("Let's try to add a queen to 1,0: " + q.addQueen(1,0)) ; //should be true
     System.out.println("We have added a queen to 1,0!\n" + q.toString()) ;
@@ -14,12 +14,17 @@ public class QueenBoard {
     System.out.println("Let's try to add a queen to 0,2:" + q.addQueen(0,2)) ; // should be true
     System.out.println("We can add a queen to 0,2!\n" + q.toString()) ;
     System.out.println("Let's try to add a queen to 2,3:" + q.addQueen(2,3)) ; // should be true
-    System.out.println("We can add a queen to 2,3!\n" + q.toString()) ;*/
-    QueenBoard a = new QueenBoard(4) ;
+    System.out.println("We can add a queen to 2,3!\n" + q.toString()) ;
+    /*QueenBoard a = new QueenBoard(4) ;
     if (a.solve()) System.out.println("The board (a) is solvable! Good!") ;
     else {
       System.out.println("Work on solve method! It's not working correctly right now...") ;
     }
+    QueenBoard b = new QueenBoard(2) ;
+    if (b.solve()) System.out.println("The board (b) is solvable! WHAT HAPPPENEDDDDDDDDDDDDDDDD!") ;
+    else {
+      System.out.println("Good job! (b) was not solvable!") ;
+    }*/
     /*System.out.println("Let's try to remove a queen at 2,2: " + q.removeQueen(2,2)) ; //should be true
     System.out.println("We can remove a queen at 2,2!\n" + q.toString()) ;
     System.out.println("Let's try to remove a queen at 1,0: " + q.removeQueen(1,0)) ;
@@ -42,15 +47,31 @@ public class QueenBoard {
     else {
       int l = board.length ;
       board[r][c] = -1 ;
-      for (int col = 0 ; col < l ; col++) {
-        if (col != c) board[r][col]++ ;
-      }
-      for (int row = 0 ; row < l ; row++) {
-        if (row != r) board[row][c]++ ;
-      }
+      // add one horizontally & vertically
       for (int row = 0 ; row < l ; row++) {
         for (int col = 0 ; col < l ; col++) {
-          if (r - row == c - col && row != r && col != c) board[row][col]++ ;
+          if (row == r && col != c) board[row][col] += 1 ;
+          if (col == c && row != r) board[row][col] += 1 ;
+        }
+      }
+      // add one diagonally right up
+      if (r > 0 && c < l-1) {
+        int row = r - 1 ;
+        int col = c + 1 ;
+        while (row >= 0 && col < l) {
+          board[row][col] += 1 ;
+          col++ ;
+          row-- ;
+        }
+      }
+      // add one diagonally right down
+      if (r < l-1 && c < l-1) {
+        int row = r + 1 ;
+        int col = c + 1 ;
+        while (row < l && col < l) {
+          board[row][col] += 1 ;
+          row++ ;
+          col++ ;
         }
       }
       return true ;
@@ -100,22 +121,23 @@ public class QueenBoard {
           result += "Q " ;
         }
         else {
-          result += board[r][c] + " " ;
+          //result += "board[r][c]" + " " ;
+          result += "_ " ;
         }
       }
       result += "\n" ;
     }
     return result ;
   }
-  // Private helper method for solve()
-  private boolean singleQueens(int[][] board) {
+  // Private helper method to calculate # of queens on the board
+  private int numberQueens(int[][] board) {
     int total = 0 ;
     for (int r = 0 ; r < board.length ; r++) {
       for (int c = 0 ; c < board.length ; c++) {
         if (board[r][c] == -1) total++ ;
       }
     }
-    return total == board.length ;
+    return total ;
   }
   /**
   *@return false when the board is not solveable and leaves the board filled with zeros;
@@ -128,21 +150,28 @@ public class QueenBoard {
         if (board[r][c] != 0) throw new IllegalStateException("Why is the board not starting with 0? IllegalStateException is thrown!") ;
       }
     }
-    if (singleQueens(board)) {
-      return true ;
-    }
-    else {
-      return solveH(0) ;
-    }
+    return solveH(0) ;
   }
-  // Second helper method for solve that uses recursion
-  public boolean solveH(int r) {
+  // Helper method for solve() that uses recursion
+  public boolean solveH(int c) {
     int l = board.length ;
-    if (r >= l) {
+    if (c >= l) {
       // we're at the end of the board
-      return true ;
+      System.out.println(this) ;
+      return numberQueens(board) == l ;
     }
     else {
+      for (int r = 0 ; r < l ; r++) {
+        System.out.println("Here is how the board looks:\n"+this.toString()) ;
+        if (addQueen(r,c)) {
+          System.out.println("Queen was added:\n"+this.toString()) ;
+          if ( solveH(c+1) ) return true ; // it can be solved
+          else {
+            removeQueen(r,c) ; // otherwise remove the queen
+            System.out.println("The queen was removed:\n"+this.toString()) ;
+          }
+        }
+      }
       return false ;
     }
   }
