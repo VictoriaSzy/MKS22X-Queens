@@ -3,7 +3,7 @@ public class QueenBoard {
   private int[][] board ;
 
   public static void main(String[] args) {
-    QueenBoard q = new QueenBoard(4) ;
+    /*QueenBoard q = new QueenBoard(4) ;
     System.out.println("Here is the board:\n" + q.toString()) ;
     System.out.println("Let's try to add a queen to 1,0: " + q.addQueen(1,0)) ; //should be true
     System.out.println("We have added a queen to 1,0!\n" + q.toString()) ;
@@ -16,7 +16,12 @@ public class QueenBoard {
     System.out.println("Let's try to add a queen to 2,3:" + q.addQueen(2,3)) ; // should be true
     System.out.println("We can add a queen to 2,3!\n" + q.toString()) ;
     System.out.println("*********************REMOVING******************************************************************") ;
-    /*QueenBoard a = new QueenBoard(4) ;
+    System.out.println("Let's try to remove a queen at 2,3: " + q.removeQueen(2,3)) ; //should be true
+    System.out.println("We can remove a queen at 2,3!\n" + q.toString()) ;
+    System.out.println("Let's try to remove a queen at 1,1: " + q.removeQueen(1,1)) ;
+    System.out.println("We tried to remove the \"queen\" at 1,1, which doesn't exist!\n" + q.toString()) ;
+    System.out.println("*****************SOLVING**********************************************************") ;
+    QueenBoard a = new QueenBoard(4) ;
     if (a.solve()) System.out.println("The board (a) is solvable! Good!") ;
     else {
       System.out.println("Work on solve method! It's not working correctly right now...") ;
@@ -26,10 +31,6 @@ public class QueenBoard {
     else {
       System.out.println("Good job! (b) was not solvable!") ;
     }*/
-    System.out.println("Let's try to remove a queen at 2,3: " + q.removeQueen(2,3)) ; //should be true
-    System.out.println("We can remove a queen at 2,3!\n" + q.toString()) ;
-    System.out.println("Let's try to remove a queen at 1,1: " + q.removeQueen(1,1)) ;
-    System.out.println("We tried to remove the \"queen\" at 1,1, which doesn't exist!\n" + q.toString()) ;
   }
 
   // Constructor: fills 2D array with 0's to start
@@ -172,18 +173,18 @@ public class QueenBoard {
     int l = board.length ;
     if (c >= l) {
       // we're at the end of the board
-      System.out.println(this) ;
+      //System.out.println(this.toString()) ;
       return numberQueens(board) == l ;
     }
     else {
       for (int r = 0 ; r < l ; r++) {
-        System.out.println("Here is how the board looks:\n"+this.toString()) ;
+        //System.out.println("Here is how the board looks:\n"+this.toString()) ;
         if (addQueen(r,c)) {
-          System.out.println("Queen was added:\n"+this.toString()) ;
+          //System.out.println("Queen was added:\n"+this.toString()) ;
           if ( solveH(c+1) ) return true ; // it can be solved
           else {
             removeQueen(r,c) ; // otherwise remove the queen
-            System.out.println("The queen was removed:\n"+this.toString()) ;
+            //System.out.println("The queen was removed:\n"+this.toString()) ;
           }
         }
       }
