@@ -3,7 +3,12 @@ public class QueenBoard {
   private int[][] board ;
 
   public static void main(String[] args) {
-    /*QueenBoard q = new QueenBoard(4) ;
+    System.out.println("*********************************************************************************************************************") ;
+    System.out.println("*********************************************************************************************************************") ;
+    System.out.println("*********************************************************************************************************************") ;
+    System.out.println("*********************************************************************************************************************") ;
+    System.out.println("*********************************************************************************************************************") ;
+    QueenBoard q = new QueenBoard(4) ;
     System.out.println("Here is the board:\n" + q.toString()) ;
     System.out.println("Let's try to add a queen to 1,0: " + q.addQueen(1,0)) ; //should be true
     System.out.println("We have added a queen to 1,0!\n" + q.toString()) ;
@@ -15,12 +20,16 @@ public class QueenBoard {
     System.out.println("We can add a queen to 0,2!\n" + q.toString()) ;
     System.out.println("Let's try to add a queen to 2,3:" + q.addQueen(2,3)) ; // should be true
     System.out.println("We can add a queen to 2,3!\n" + q.toString()) ;
+    System.out.println("*********************************************************************************************************************") ;
     System.out.println("*********************REMOVING******************************************************************") ;
+    System.out.println("*********************************************************************************************************************") ;
     System.out.println("Let's try to remove a queen at 2,3: " + q.removeQueen(2,3)) ; //should be true
     System.out.println("We can remove a queen at 2,3!\n" + q.toString()) ;
     System.out.println("Let's try to remove a queen at 1,1: " + q.removeQueen(1,1)) ;
     System.out.println("We tried to remove the \"queen\" at 1,1, which doesn't exist!\n" + q.toString()) ;
+    System.out.println("*********************************************************************************************************************") ;
     System.out.println("*****************SOLVING**********************************************************") ;
+    System.out.println("*********************************************************************************************************************") ;
     QueenBoard a = new QueenBoard(4) ;
     if (a.solve()) System.out.println("The board (a) is solvable! Good!") ;
     else {
@@ -30,7 +39,43 @@ public class QueenBoard {
     if (b.solve()) System.out.println("The board (b) is solvable! WHAT HAPPPENEDDDDDDDDDDDDDDDD!") ;
     else {
       System.out.println("Good job! (b) was not solvable!") ;
-    }*/
+    }
+    System.out.println("*********************************************************************************************************************") ;
+    System.out.println("*****************COUNTING SOLUTIONS**********************************************************") ;
+    System.out.println("*********************************************************************************************************************") ;
+    QueenBoard c = new QueenBoard(2) ;
+    System.out.println("Let's create a QueenBoard of size 2 and run countSolutions. It should be 0 because there are no solutions!") ;
+    //System.out.println("Here is the empty board:\n" + c.toString()) ;
+    if (c.countSolutions() == 0) {
+      System.out.println("Good job! countSolutions works on a board of size 2!") ;
+    }
+    else {
+      System.out.println("There is something wrong with countSolutions because it didn't return 0 for a board of size 2!") ;
+    }
+    System.out.println("*********************************************************************************************************************") ;
+    System.out.println("*********************************************************************************************************************") ;
+    QueenBoard d = new QueenBoard(3) ;
+    System.out.println("Let's create a QueenBoard of size 3 and run countSolutions. It should be 0 because there are no solutions!") ;
+    //System.out.println("Here is the empty board:\n" + d.toString()) ;
+    if (d.countSolutions() == 0) {
+      System.out.println("Good job! countSolutions works on a board of size 3!") ;
+    }
+    else {
+      System.out.println("There is something wrong with countSolutions because it didn't return 0 for a board of size 3!") ;
+    }
+    System.out.println("*********************************************************************************************************************") ;
+    System.out.println("*********************************************************************************************************************") ;
+    QueenBoard e = new QueenBoard(4) ;
+    System.out.println("Let's create a QueenBoard of size 4 and run countSolutions. It should be 2!") ;
+    //System.out.println("Here is the empty board:\n" + e.toString()) ;
+    System.out.println(e.countSolutions()) ;
+    /*if (e.countSolutions() == 2) {
+      System.out.println("Good job! countSolutions works on a board of size 4!") ;
+    }
+    else {
+      System.out.println("There is something wrong with countSolutions because it didn't return 2 for a board of size 4!") ;
+    }
+    System.out.println("----------------") ; */
   }
 
   // Constructor: fills 2D array with 0's to start
@@ -171,21 +216,28 @@ public class QueenBoard {
   // Helper method for solve() that uses recursion
   public boolean solveH(int c) {
     int l = board.length ;
+    System.out.println("Column is: " + c) ;
     if (c >= l) {
       // we're at the end of the board
-      //System.out.println(this.toString()) ;
+      System.out.println("We're at the end!:\n"+this.toString()) ;
       return numberQueens(board) == l ;
     }
     else {
       for (int r = 0 ; r < l ; r++) {
-        //System.out.println("Here is how the board looks:\n"+this.toString()) ;
+        System.out.println("Trying to add to row " + r + "\nHere is how the board looks:\n"+this.toString()) ;
         if (addQueen(r,c)) {
-          //System.out.println("Queen was added:\n"+this.toString()) ;
+          System.out.println("Queen was added:\n"+this.toString()) ;
           if ( solveH(c+1) ) return true ; // it can be solved
           else {
             removeQueen(r,c) ; // otherwise remove the queen
-            //System.out.println("The queen was removed:\n"+this.toString()) ;
+            System.out.println("The queen was removed:\n"+this.toString()) ;
           }
+        }
+      }
+      // clear the board back to zeros
+      for (int row = 0 ; row < l ; row++) {
+        for (int col = 0 ; col < l ; col++) {
+          board[row][col] = 0 ;
         }
       }
       return false ;
@@ -197,12 +249,27 @@ public class QueenBoard {
   *@throws IllegalStateException when the board starts with any non-zero value
   */
   public int countSolutions() {
+    System.out.println("*************************Welcome to countSolutions()!*********************") ;
     for (int r = 0 ; r < board.length ; r++) {
       for (int c = 0 ; c < board.length ; c++) {
         if (board[r][c] != 0) throw new IllegalStateException("Why is the board not starting with 0? IllegalStateException is thrown!") ;
       }
     }
-    return 1 ;
+    return countH(0) ;
+  }
+  public int countH(int c) {
+    int l = board.length ;
+    System.out.println(this.toString()) ;
+    if (c >= l) return 1 ;
+    int total = 0 ;
+    for (int r = 0 ; r < l ; r++) {
+      if (addQueen(r,c)) {
+        total += countH(c + 1) ;
+        removeQueen(r,c) ;
+      }
+    }
+    System.out.println("\nThe method countH() has concluded!") ;
+    return total ;
   }
 
 }
