@@ -3,6 +3,7 @@ public class QueenBoard {
   private int[][] board ;
 
   public static void main(String[] args) {
+    // I used this visualizer to also help me debug: http://pythontutor.com/visualize.html#mode=edit
     /*System.out.println("*********************************************************************************************************************") ;
     System.out.println("*********************************************************************************************************************") ;
     System.out.println("*********************************************************************************************************************") ;
