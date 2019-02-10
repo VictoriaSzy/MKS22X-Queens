@@ -3,7 +3,7 @@ public class QueenBoard {
   private int[][] board ;
 
   public static void main(String[] args) {
-    System.out.println("*********************************************************************************************************************") ;
+    /*System.out.println("*********************************************************************************************************************") ;
     System.out.println("*********************************************************************************************************************") ;
     System.out.println("*********************************************************************************************************************") ;
     QueenBoard q = new QueenBoard(4) ;
@@ -63,7 +63,7 @@ public class QueenBoard {
     }
     else {
       System.out.println("There is something wrong with countSolutions because it didn't return 2 for a board of size 4!") ;
-    }
+    }*/
   }
 
   // Constructor: fills 2D array with 0's to start
