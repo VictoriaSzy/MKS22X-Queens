@@ -1,16 +1,13 @@
 public class QueenBoard {
-  // Variables
+  // Variable
   private int[][] board ;
 
   public static void main(String[] args) {
-    System.out.println("The size is: " + 10) ;
-    QueenBoard a = new QueenBoard(10) ;
-    System.out.println("We are solving the board now!") ;
-    System.out.println(a.solve()) ;
-    /*QueenBoard b = new QueenBoard(i) ;
+    /*System.out.println("The size is: " + 15) ;
+    QueenBoard a = new QueenBoard(15) ;
     System.out.println("We are finding all possible solutions now!") ;
-    System.out.println(b.countSolutions()) ;*/
-    /*System.out.println("We are going to run the test!") ;
+    System.out.println(a.countSolutions()) ;
+    System.out.println("We are going to run the test!") ;
     for (int i = 0 ; i < 6 ; i++) {
       System.out.println("The current index is " + i) ;
       runTest(i) ;
