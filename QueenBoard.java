@@ -3,13 +3,20 @@ public class QueenBoard {
   private int[][] board ;
 
   public static void main(String[] args) {
-    System.out.println("We are going to run the test!") ;
+    System.out.println("The size is: " + 10) ;
+    QueenBoard a = new QueenBoard(10) ;
+    System.out.println("We are solving the board now!") ;
+    System.out.println(a.solve()) ;
+    /*QueenBoard b = new QueenBoard(i) ;
+    System.out.println("We are finding all possible solutions now!") ;
+    System.out.println(b.countSolutions()) ;*/
+    /*System.out.println("We are going to run the test!") ;
     for (int i = 0 ; i < 6 ; i++) {
       System.out.println("The current index is " + i) ;
       runTest(i) ;
     }
     // I used this visualizer to also help me debug: http://pythontutor.com/visualize.html#mode=edit
-    /*System.out.println("*********************************************************************************************************************") ;
+    System.out.println("*********************************************************************************************************************") ;
     System.out.println("*********************************************************************************************************************") ;
     System.out.println("*********************************************************************************************************************") ;
     QueenBoard q = new QueenBoard(4) ;
@@ -81,39 +88,18 @@ public class QueenBoard {
       }
     }
   }
-
   //////////////////// PRIVATE METHODS ///////////////////////////////////////
   private boolean addQueen(int r, int c) {
-    if (board[r][c] != 0) return false ; // the tile is threatened OR has a queen already so we can't put down a queen
+    if (board[r][c] > 0) return false ; // the tile is threatened OR has a queen already so we can't put down a queen
     else {
       int l = board.length ;
       board[r][c] = -1 ;
-      // add one horizontally & vertically
-      for (int row = 0 ; row < l ; row++) {
-        for (int col = 0 ; col < l ; col++) {
-          if (row == r && col != c) board[row][col] += 1 ;
-          if (col == c && row != r) board[row][col] += 1 ;
-        }
-      }
-      // add one diagonally right up
-      if (r > 0 && c < l-1) {
-        int row = r - 1 ;
-        int col = c + 1 ;
-        while (row >= 0 && col < l) {
-          board[row][col] += 1 ;
-          col++ ;
-          row-- ;
-        }
-      }
-      // add one diagonally right down
-      if (r < l-1 && c < l-1) {
-        int row = r + 1 ;
-        int col = c + 1 ;
-        while (row < l && col < l) {
-          board[row][col] += 1 ;
-          row++ ;
-          col++ ;
-        }
+      for (int i = 1 ; c + i < l ; i++) {
+        board[r][c + i] += 1 ;
+        // if it doesn't go past the last row
+        if (r + i < l) board[r + i][c + i] += 1 ;
+        // if it doesn't go less than 0
+        if (r - i > -1) board[r - i][c + i] += 1 ;
       }
       return true ;
     }
@@ -122,33 +108,13 @@ public class QueenBoard {
     if (board[r][c] != -1) return false ; // the specified tile is not a Queen
     else {
       int l = board.length ;
-      board[r][c] = 0 ;
-      // remove one horizontally & vertically
-      for (int row = 0 ; row < l ; row++) {
-        for (int col = 0 ; col < l ; col++) {
-          if (row == r && col != c) board[row][col] -= 1 ;
-          if (col == c && row != r) board[row][col] -= 1 ;
-        }
-      }
-      // remove one diagonally right up
-      if (r > 0 && c < l - 1) {
-        int row = r - 1 ;
-        int col = c + 1 ;
-        while (row >= 0 && col < l) {
-          board[row][col] -= 1 ;
-          col++ ;
-          row-- ;
-        }
-      }
-      // remove one diagonally right down
-      if (r < l - 1 && c < l - 1) {
-        int row = r + 1 ;
-        int col = c + 1 ;
-        while (row < l && col < l) {
-          board[row][col] -= 1 ;
-          row++ ;
-          col++ ;
-        }
+      board[r][c]++ ;
+      for (int i = 1 ; c + i < l ; i++) {
+        board[r][c + i]-= 1 ;
+        // if it doesn't go past the last row
+        if (r + i < l) board[r + i][c + i]-= 1 ;
+        // if it doesn't go less than 0
+        if (r - i > -1) board[r - i][c + i]-= 1 ;
       }
       return true ;
     }
@@ -184,16 +150,7 @@ public class QueenBoard {
     }
     return result ;
   }
-  // Private helper method to calculate # of queens on the board
-  private int numberQueens(int[][] board) {
-    int total = 0 ;
-    for (int r = 0 ; r < board.length ; r++) {
-      for (int c = 0 ; c < board.length ; c++) {
-        if (board[r][c] == -1) total++ ;
-      }
-    }
-    return total ;
-  }
+
   /**
   *@return false when the board is not solveable and leaves the board filled with zeros;
   *        true when the board is solveable, and leaves the board in a solved state
@@ -214,7 +171,7 @@ public class QueenBoard {
     if (c >= l) {
       // we're at the end of the board
       //System.out.println("We're at the end!:\n"+this.toString()) ;
-      return numberQueens(board) == l ;
+      return true ;
     }
     else {
       for (int r = 0 ; r < l ; r++) {
@@ -226,12 +183,6 @@ public class QueenBoard {
             removeQueen(r,c) ; // otherwise remove the queen
             //System.out.println("The queen was removed:\n"+this.toString()) ;
           }
-        }
-      }
-      // clear the board back to zeros
-      for (int row = 0 ; row < l ; row++) {
-        for (int col = 0 ; col < l ; col++) {
-          board[row][col] = 0 ;
         }
       }
       return false ;
